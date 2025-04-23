@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoyalTransfers</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AOS - Animate On Scroll -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <script>
+        let currentLang = localStorage.getItem('selectedLang') || 'pl';
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            initLanguageSwitcher();
+            switchLanguage(currentLang);
+            updateDropdownButton(currentLang);
+        });
+    
+        function initLanguageSwitcher() {
+            const dropdown = document.querySelector('.dropdown-btn');
+            const dropdownContent = document.querySelector('.dropdown-content');
+            const languageOptions = document.querySelectorAll('.language-option');
+    
+            // Otwieranie/Zamykanie listy
+            dropdown.addEventListener('click', () => {
+                dropdownContent.classList.toggle('show');
+            });
+    
+            // Wybór języka
+            languageOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    const lang = this.getAttribute('data-lang');
+                    switchLanguage(lang);
+                    updateDropdownButton(lang);
+                    dropdownContent.classList.remove('show');
+                });
+            });
+    
+            // Zamknięcie listy po kliknięciu poza nią
+            document.addEventListener('click', (event) => {
+                if (!dropdown.contains(event.target)) {
+                    dropdownContent.classList.remove('show');
+                }
+            });
+        }
+    
+        function switchLanguage(lang) {
+            if (lang === currentLang) return;
+    
+            currentLang = lang;
+            localStorage.setItem('selectedLang', lang);
+    
+            // Przetłumacz elementy, zachowując <span class="highlight">
+            document.querySelectorAll("[data-pl][data-en]").forEach(element => {
+                const translation = lang === "pl" ? element.getAttribute("data-pl") : element.getAttribute("data-en");
+    
+                const highlightSpan = element.querySelector(".highlight");
+                if (highlightSpan) {
+                    highlightSpan.innerHTML = translation;
+                } else {
+                    element.innerHTML = translation;
+                }
+            });
+        }
+    
+        function updateDropdownButton(lang) {
+            const dropdown = document.querySelector('.dropdown-btn');
+            dropdown.innerHTML = lang === 'pl' ? '🇵🇱' : '🇬🇧'; // Ustawienie flagi jako tekstu
+        }
+    </script>
+    
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="logo"></div>
+    </div>
+    <!-- Contact Bubbles -->
+    <div class="contact-bubbles">
+        <div class="contact-bubble whatsapp-bubble" title="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </div>
+        <div class="contact-bubble telegram-bubble" title="Telegram">
+            <i class="fab fa-telegram"></i>
+        </div>
+        <div class="contact-bubble" title="Zadzwoń">
+            <i class="fas fa-phone-alt"></i>
+        </div>
+        <div class="contact-bubble chat-bubble" title="Czat">
+            <i class="fas fa-comments"></i>
+        </div>
+    </div>
+    
+    <!-- Chat Window -->
+    <div class="chat-window">
+        <div class="chat-header">
+            <div class="chat-title" data-pl="Czat z konsultantem" data-en="Chat with consultant">Czat z konsultantem</div>
+            <div class="chat-close"><i class="fas fa-times"></i></div>
+        </div>
+        <div class="chat-messages">
+            <div class="chat-message incoming">
+                <span data-pl="Witaj! W czym mogę pomóc?" data-en="Hello! How can I help you?">Witaj! W czym mogę pomóc?</span>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Wiadomość..." data-pl="Wiadomość..." data-en="Message...">
+            <button><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    
+    <!-- Toast Message -->
+    <div class="toast"></div>
+    
+    <!-- Header -->
+    <header id="home">
+        <div class="background-image"></div>
+        <div class="overlay"></div>
+        
+        <nav>
+            <a href="#" class="logo">RoyalTransfers</a>
+            <div class="menu">
+                <a href="#home" class="menu-item" data-pl="Strona główna" data-en="Home">Strona główna</a>
+                <a href="#about" class="menu-item" data-pl="O nas" data-en="About us">O nas</a>
+                <a href="#offer" class="menu-item" data-pl="Oferta" data-en="Offer">Oferta</a>
+                <a href="#fleet" class="menu-item" data-pl="Flota" data-en="Fleet">Flota</a>
+                <a href="#testimonials" class="menu-item" data-pl="Opinie" data-en="Testimonials">Opinie</a>
+                <a href="#pricing" class="menu-item" data-pl="Cennik" data-en="Pricing">Cennik</a>
+                <a href="#contact" class="menu-item" data-pl="Kontakt" data-en="Contact">Kontakt</a>
+            </div>
+
+            <div class="language-dropdown">
+                <div class="dropdown-btn">🇵🇱</div> <!-- Domyślnie flaga Polski -->
+                <ul class="dropdown-content">
+                    <li class="language-option" data-lang="pl">🇵🇱 Polski</li>
+                    <li class="language-option" data-lang="en">🇬🇧 English</li>
+                </ul>
+            </div>        
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+        
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="highlight" data-pl="Transfery" data-en="Airport">Transfery</span> 
+                <span data-pl="Lotniskowe" data-en="Transfers">Lotniskowe</span> 
+            </h1>
+            <p class="hero-subtitle" data-pl="Transfery lotniskowe w luksusowym wydaniu! Podróżuj w pełnym komforcie dzięki naszej flocie prestiżowych samochodów. Oferujemy ekskluzywne transfery VIP, które gwarantują dyskrecję, wygodę i najwyższą jakość obsługi." 
+               data-en="We offer airport transfers in every class – from comfortable economy options to luxurious VIP rides. Choose the level of comfort that suits your needs!">
+               Oferujemy transfery lotniskowe w każdej klasie – od komfortowych opcji ekonomicznych po luksusowe przejazdy VIP. Wybierz poziom wygody dopasowany do swoich potrzeb!
+            </p>
+            <a href="#contact" class="hero-btn">
+                <span data-pl=">Wyceń Przejazd" data-en="Estimate the ride">Wyceń Przejazd</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        
+            
+            <!-- Hero particles effect container -->
+            <div id="particles-js"></div>
+            
+            <!-- Animated arrow down -->
+            <div class="scroll-down">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- About Section -->
+    <section id="about" class="section">
+        <h2 class="section-title" data-pl="O nas" data-en="About us">O nas</h2>
+        <div class="about-content">
+            <div class="about-image" data-aos="fade-right">
+                <div class="image-frame">
+                    <img src="image/1.jpg" alt="Transfer">
+                </div>
+                <br>
+                <div class="image-frame">
+                    <img src="image/s4.jpeg" alt="Transfer">
+                </div>
+            </div>
+            <div class="about-text" data-aos="fade-left">
+                <p data-pl="RoyalTransfers to ekskluzywna wypożyczalnia samochodów specjalizująca się w obsłudze transferów VIP. Nasza pasja do motoryzacji oraz wieloletnie doświadczenie pozwalają nam dostarczać najwyższej jakości usługi dla naszych klientów." data-en="RoyalTransfers is an exclusive car rental company specializing in VIP transfers. Our passion for motoring and many years of experience allow us to provide the highest quality services to our clients.">RoyalTransfers to ekskluzywna wypożyczalnia samochodów specjalizująca się w obsłudze transferów VIP. Nasza pasja do motoryzacji oraz wieloletnie doświadczenie pozwalają nam dostarczać najwyższej jakości usługi dla naszych klientów.</p>
+                <p data-pl="Nasza flota składa się wyłącznie z najnowszych, starannie wybranych modeli najbardziej prestiżowych marek. Każdy samochód jest utrzymany w perfekcyjnym stanie technicznym i wizualnym, aby sprostać oczekiwaniom nawet najbardziej wymagających klientów." data-en="Our fleet consists only of the newest, carefully selected models of the most prestigious brands. Each car is maintained in perfect technical and visual condition to meet the expectations of even the most demanding customers.">Nasza flota składa się wyłącznie z najnowszych, starannie wybranych modeli najbardziej prestiżowych marek. Każdy samochód jest utrzymany w perfekcyjnym stanie technicznym i wizualnym, aby sprostać oczekiwaniom nawet najbardziej wymagających klientów.</p>
+                
+                <div class="features">
+                    <div class="feature" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h4 data-pl="Luksusowa flota" data-en="Luxury fleet">Luksusowa flota</h4>
+                            <p data-pl="Najwyższej klasy samochody marek premium." data-en="Highest class premium brand vehicles.">Najwyższej klasy samochody marek premium.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h4 data-pl="Profesjonalna obsługa" data-en="Professional service">Profesjonalna obsługa</h4>
+                            <p data-pl="Doświadczeni kierowcy w eleganckich strojach." data-en="Experienced drivers in elegant attire.">Doświadczeni kierowcy w eleganckich strojach.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h4 data-pl="Indywidualne podejście" data-en="Individual approach">Indywidualne podejście</h4>
+                            <p data-pl="Personalizacja usługi pod Twoje wymagania." data-en="Service personalization to match your requirements.">Personalizacja usługi pod Twoje wymagania.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature" data-aos="fade-up" data-aos-delay="400">
+                        <div class="feature-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h4 data-pl="Niezawodność" data-en="Reliability">Niezawodność</h4>
+                            <p data-pl="Gwarancja punktualności i bezpieczeństwa." data-en="Guarantee of punctuality and safety.">Gwarancja punktualności i bezpieczeństwa.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Oferta Section -->
+    <section id="offer" class="section">
+        <h2 class="section-title" data-pl="Oferta" data-en="Offer">Oferta</h2>
+        <div class="about-content">
+            <div class="about-image" data-aos="fade-right">
+                <div class="image-frame">
+                    <img src="image/air.jpg" alt="Transfer">
+                </div>
+                <br>
+            </div>
+            <div class="about-text" data-aos="fade-left">
+                <div class="features">
+                    <div class="feature" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-plane"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h4 data-pl="Transfer lotniskowy" data-en="Airport Transfer">Transfer lotniskowy</h4>
+                            <p data-pl="Luksusowy i bezpieczny transport z i na lotnisko." data-en="Luxury and safe transportation to and from the airport.">Luksusowy i bezpieczny transport z i na lotnisko.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h4 data-pl="Profesjonalna obsługa" data-en="VIP Transfer">Transfer VIP</h4>
+                            <p data-pl="Usługa premium dla najbardziej wymagających klientów." data-en="A premium service for the most demanding clients.">Usługa premium dla najbardziej wymagających klientów.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h4 data-pl="Indywidualne podejście" data-en="Business Transfer">Transfer biznesowy</h4>
+                            <p data-pl="Idealne rozwiązanie dla osób podróżujących służbowo." data-en="The perfect solution for business travelers.">Idealne rozwiązanie dla osób podróżujących służbowo.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature" data-aos="fade-up" data-aos-delay="400">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-car-side"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h4 data-pl="Niezawodność" data-en="Intercity Transfer">Transfer międzymiastowy</h4>
+                            <p data-pl="Luksusowa alternatywa dla podróży pociągiem czy samolotem." data-en="A luxurious alternative to trains or flights.">Luksusowa alternatywa dla podróży pociągiem czy samolotem.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Offers Section -->
+    <section id="fleet" class="offers">
+        <div class="parallax-bg"></div>
+        <div class="section">
+            <h2 class="section-title">
+                <span data-pl="Nasza" data-en="Our">Nasza</span> 
+                <span class="highlight" data-pl="Flota" data-en="Fleet">Flota</span>
+            </h2>
+
+            <h2 class="section-title2">Standard</h2>
+            <div class="cars-container">
+                <div class="car-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="car-image">
+                        <img src="image/passat.jpeg" alt="Volkswagen Passat">
+                        <div class="car-overlay">
+                            <div class="car-overlay-content">
+                                <h2>Volkswagen Passat</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-details">
+                        <div class="car-icon">
+                            <i class="fas fa-car-side"></i>
+                        </div>
+                        <h3 class="car-title">Volkswagen Passat</h3>
+                        <div class="car-specs">
+                            <div class="car-spec">
+                                <i class="fas fa-user"></i>
+                                <span>4</span>
+                            </div>
+                            <div class="car-spec">
+                                <i class="fa-solid fa-suitcase-rolling"></i>
+                                <span>3</span>
+                            </div>
+                        </div>
+                        <a href="#contact" class="car-btn" data-category="Standard" data-car="Volkswagen Passat" data-pl="Wynajmij" data-en="Rent">Wynajmij</a>
+                    </div>
+                </div>
+                
+                <div class="car-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="car-image">
+                        <img src="image/insignia.jpeg" alt="Opel Insignia">
+                        <div class="car-overlay">
+                            <div class="car-overlay-content">
+                                <h2>Opel Insignia</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-details">
+                        <div class="car-icon">
+                            <i class="fas fa-car-side"></i>
+                        </div>
+                        <h3 class="car-title">Opel Insignia</h3>
+                        <div class="car-specs">
+                            <div class="car-spec">
+                                <i class="fas fa-user"></i>
+                                <span>4</span>
+                            </div>
+                            <div class="car-spec">
+                                <i class="fa-solid fa-suitcase-rolling"></i>
+                                <span>3</span>
+                            </div>
+                        </div>
+                        <a href="#contact" class="car-btn" data-category="Standard" data-car="Opel Insignia" data-pl="Wynajmij" data-en="Rent">Wynajmij</a>
+                    </div>
+                </div>
+                
+                <div class="car-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="car-image">
+                        <img src="image/mondeo.jpeg" alt="Ford Mondeo">
+                        <div class="car-overlay">
+                            <div class="car-overlay-content">
+                                <h2>Ford Mondeo</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-details">
+                        <div class="car-icon">
+                            <i class="fas fa-car-side"></i>
+                        </div>
+                        <h3 class="car-title">Ford Mondeo</h3>
+                        <div class="car-specs">
+                            <div class="car-spec">
+                                <i class="fas fa-user"></i>
+                                <span>4</span>
+                            </div>
+                            <div class="car-spec">
+                                <i class="fa-solid fa-suitcase-rolling"></i>
+                                <span>3</span>
+                            </div>
+                        </div>
+                        <a href="#contact" class="car-btn" data-category="Standard" data-car="Ford Mondeo" data-pl="Wynajmij" data-en="Rent">Wynajmij</a>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <h2 class="section-title2">Premium</h2>
+            <div class="cars-container">
+                <div class="car-card" data-aos="fade-up">
+                    <div class="car-image">
+                        <img src="image/s4.jpeg" alt="Mercedes S-Class">
+                        <div class="car-overlay">
+                            <div class="car-overlay-content">
+                                <h2>Mercedes S-Class</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-details">
+                        <div class="car-icon">
+                            <i class="fas fa-car-side"></i>
+                        </div>
+                        <h3 class="car-title">Mercedes S-Class</h3>
+                        <div class="car-specs">
+                            <div class="car-spec">
+                                <i class="fas fa-user"></i>
+                                <span>4</span>
+                            </div>
+                            <div class="car-spec">
+                                <i class="fa-solid fa-suitcase-rolling"></i>
+                                <span>3</span>
+                            </div>
+                        </div>
+                        <a href="#contact" class="car-btn" data-category="Premium" data-car="Mercedes S-Class" data-pl="Wynajmij" data-en="Rent">Wynajmij</a>
+                    </div>
+                </div>
+                
+                <div class="car-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="car-image">
+                        <img src="image/bmw.jpg" alt="BMW 7 Series">
+                        <div class="car-overlay">
+                            <div class="car-overlay-content">
+                                <h2>BMW 7 Series</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-details">
+                        <div class="car-icon">
+                            <i class="fas fa-car-side"></i>
+                        </div>
+                        <h3 class="car-title">BMW 7 Series</h3>
+                        <div class="car-specs">
+                            <div class="car-spec">
+                                <i class="fas fa-user"></i>
+                                <span>4</span>
+                            </div>
+                            <div class="car-spec">
+                                <i class="fa-solid fa-suitcase-rolling"></i>
+                                <span>3</span>
+                            </div>
+                        </div>
+                        <a href="#contact" class="car-btn" data-category="Premium" data-car="BMW 7 Series" data-pl="Wynajmij" data-en="Rent">Wynajmij</a>
+                    </div>
+                </div>
+                
+                <div class="car-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="car-image">
+                        <img src="image/a8.jpeg" alt="Audi A8">
+                        <div class="car-overlay">
+                            <div class="car-overlay-content">
+                                <h2>Audi A8</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-details">
+                        <div class="car-icon">
+                            <i class="fas fa-car-side"></i>
+                        </div>
+                        <h3 class="car-title">Audi A8</h3>
+                        <div class="car-specs">
+                            <div class="car-spec">
+                                <i class="fas fa-user"></i>
+                                <span>4</span>
+                            </div>
+                            <div class="car-spec">
+                                <i class="fa-solid fa-suitcase-rolling"></i>
+                                <span>3</span>
+                            </div>
+                        </div>
+                        <a href="#contact" class="car-btn" data-category="Premium" data-car="Audi A8" data-pl="Wynajmij" data-en="Rent">Wynajmij</a>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <h2 class="section-title2" data-pl="Busy do 9 osób" data-en="Bus for up to 9 people">Busy do 9 osób</h2>
+            
+            <div class="cars-container">                
+                <div class="car-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="car-image">
+                        <img src="image/tourneo.jpeg" alt="Ford Tourneo">
+                        <div class="car-overlay">
+                            <div class="car-overlay-content">
+                                <h2>Ford Tourneo</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-details">
+                        <div class="car-icon">
+                            <i class="fa-solid fa-van-shuttle"></i>
+                        </div>
+                        <h3 class="car-title">Ford Tourneo</h3>
+                        <div class="car-specs">
+                            <div class="car-spec">
+                                <i class="fas fa-user"></i>
+                                <span>8</span>
+                            </div>
+                            <div class="car-spec">
+                                <i class="fa-solid fa-suitcase-rolling"></i>
+                                <span>7</span>
+                            </div>
+                        </div>
+                        <a href="#contact" class="car-btn" data-category="Bus do 9 osób" data-car="Ford Tourneo" data-pl="Wynajmij" data-en="Rent">Wynajmij</a>
+                    </div>
+                </div>
+
+                <div class="car-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="car-image">
+                        <img src="image/trafic.jpeg" alt="Renault Trafic">
+                        <div class="car-overlay">
+                            <div class="car-overlay-content">
+                                <h2>Renault Trafic</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-details">
+                        <div class="car-icon">
+                            <i class="fa-solid fa-van-shuttle"></i>
+                        </div>
+                        <h3 class="car-title">Renault Trafic</h3>
+                        <div class="car-specs">
+                            <div class="car-spec">
+                                <i class="fas fa-user"></i>
+                                <span>8</span>
+                            </div>
+                            <div class="car-spec">
+                                <i class="fa-solid fa-suitcase-rolling"></i>
+                                <span>7</span>
+                            </div>
+                        </div>
+                        <a href="#contact" class="car-btn" data-category="Bus do 9 osób" data-car="Renault Trafic" data-pl="Wynajmij" data-en="Rent">Wynajmij</a>
+                    </div>
+                </div>
+                
+                <div class="car-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="car-image">
+                        <img src="image/toyota.jpeg" alt="Toyota PROACE Verso">
+                        <div class="car-overlay">
+                            <div class="car-overlay-content">
+                                <h2>Toyota PROACE Verso</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-details">
+                        <div class="car-icon">
+                            <i class="fa-solid fa-van-shuttle"></i>
+                        </div>
+                        <h3 class="car-title">Toyota PROACE Verso</h3>
+                        <div class="car-specs">
+                            <div class="car-spec">
+                                <i class="fas fa-user"></i>
+                                <span>8</span>
+                            </div>
+                            <div class="car-spec">
+                                <i class="fa-solid fa-suitcase-rolling"></i>
+                                <span>7</span>
+                            </div>
+                        </div>
+                        <a href="#contact" class="car-btn" data-category="Bus do 9 osób" data-car="Toyota PROACE Verso" data-pl="Wynajmij" data-en="Rent">Wynajmij</a>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <h2 class="section-title2">Mercedes V-class extra long VIP 7+1</h2>
+            <div class="cars-container">
+                <div class="car-card" data-aos="fade-up">
+                    <div class="car-image1">
+                        <img src="image/vclass.jpeg" alt="Mercedes V-Class">
+                        <div class="car-overlay">
+                            <div class="car-overlay-content">
+                                <h2>Mercedes V-Class</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="car-details">
+                        <div class="car-icon">
+                            <i class="fa-solid fa-van-shuttle"></i>
+                        </div>
+                        <h3 class="car-title">Mercedes V-Class</h3>
+                        <div class="car-specs">
+                            <div class="car-spec">
+                                <i class="fas fa-user"></i>
+                                <span>6</span>
+                            </div>
+                            <div class="car-spec">
+                                <i class="fa-solid fa-suitcase-rolling"></i>
+                                <span>7</span>
+                            </div>
+                        </div>
+                        <a href="#contact" class="car-btn" data-category="V-Class VIP" data-car="Mercedes V-Class Extra Long VIP" data-pl="Wynajmij" data-en="Rent">Wynajmij</a>
+                    </div>
+                </div>
+                <div class="about-image" data-aos="fade-right">
+                    <div>
+                        <img src="image/SRODEK.jpg" alt="srodek" style="width:225%; max-width:1800px; height:auto;">
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="section">
+            <h2 class="section-title">
+                <span data-pl="Opinie" data-en="Testimonials">Opinie</span> 
+                <span class="highlight" data-pl="klientów" data-en="clients">klientów</span>
+            </h2>
+            
+            <div class="testimonials-container">
+                <div class="testimonial-slide active">
+                    <p class="testimonial-text" data-pl="Samochód dostarczony punktualnie, w idealnym stanie i nieskazitelnie czysty. Kierowca był uprzejmy, profesjonalny i doskonale znał trasę. Transfer przebiegł bezproblemowo, a podróż była wyjątkowo komfortowa. Gorąco polecam!" data-en="Car delivered on time, in perfect condition and spotlessly clean. Driver was polite, professional and knew the route very well. Transfer went smoothly and the journey was extremely comfortable. Highly recommended!">Samochód dostarczony punktualnie, w idealnym stanie i nieskazitelnie czysty. Kierowca był uprzejmy, profesjonalny i doskonale znał trasę. Transfer przebiegł bezproblemowo, a podróż była wyjątkowo komfortowa. Gorąco polecam!</p>
+                    <p class="testimonial-author">Michał</p>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="testimonial-slide">
+                    <p class="testimonial-text" data-pl="Usługa transferowa na najwyższym poziomie. Kierowca był niezwykle uprzejmy i profesjonalny, a pojazd nowoczesny i doskonale utrzymany. Cała podróż przebiegła sprawnie i bez żadnych opóźnień. Idealne rozwiązanie dla tych, którzy cenią jakość i komfort." data-en="Transfer service at the highest level. The driver was extremely polite and professional, and the vehicle was modern and perfectly maintained. The entire trip went smoothly and without any delays. The perfect solution for those who value quality and comfort.">Usługa transferowa na najwyższym poziomie. Kierowca był niezwykle uprzejmy i profesjonalny, a pojazd nowoczesny i doskonale utrzymany. Cała podróż przebiegła sprawnie i bez żadnych opóźnień. Idealne rozwiązanie dla tych, którzy cenią jakość i komfort.</p>
+                    <p class="testimonial-author">Katarzyna</p>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="testimonial-slide">
+                    <p class="testimonial-text" data-pl="Zamówiony transfer był perfekcyjnie zorganizowany. Samochód przyjechał punktualnie, a kierowca pomógł z bagażem i zadbał o komfortową podróż. Czyste, nowoczesne auto i świetna obsługa sprawiły, że podróż minęła w przyjemnej atmosferze. Na pewno skorzystam ponownie!" data-en="The ordered transfer was perfectly organized. The car arrived on time, and the driver helped with luggage and took care of a comfortable journey. A clean, modern car and great service made the trip pass in a pleasant atmosphere. I will definitely use it again!">Zamówiony transfer był perfekcyjnie zorganizowany. Samochód przyjechał punktualnie, a kierowca pomógł z bagażem i zadbał o komfortową podróż. Czyste, nowoczesne auto i świetna obsługa sprawiły, że podróż minęła w przyjemnej atmosferze. Na pewno skorzystam ponownie!</p>
+                    <p class="testimonial-author">Tomasz</p>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="testimonial-slide">
+                    <p class="testimonial-text" data-pl="Transfer VIP spełnił wszystkie moje oczekiwania. Luksusowy samochód, pełen komfort i pełna dyskrecja. Kierowca był elegancki, bardzo pomocny i znał najlepsze trasy, aby uniknąć korków. Idealna usługa dla wymagających klientów." data-en="VIP transfer met all my expectations. Luxury car, full comfort and complete discretion. The driver was elegant, very helpful and knew the best routes to avoid traffic jams. Perfect service for demanding clients.">Transfer VIP spełnił wszystkie moje oczekiwania. Luksusowy samochód, pełen komfort i pełna dyskrecja. Kierowca był elegancki, bardzo pomocny i znał najlepsze trasy, aby uniknąć korków. Idealna usługa dla wymagających klientów.</p>
+                    <p class="testimonial-author">Aleksandra</p>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="testimonial-nav testimonial-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                
+                <div class="testimonial-nav testimonial-next">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="testimonial-dots">
+                    <div class="testimonial-dot active" data-index="0"></div>
+                    <div class="testimonial-dot" data-index="1"></div>
+                    <div class="testimonial-dot" data-index="2"></div>
+                    <div class="testimonial-dot" data-index="3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="section">
+            <h2 class="section-title">
+                <span data-pl="Cennik" data-en="Pricing">Cennik</span> 
+            </h2>            
+            <div class="pricing-container" data-aos="fade-up">
+                <form class="pricing-form">
+                    <div class="form-group">
+                        <label for="car-select" data-pl="Wybierz klase pozajdu:" data-en="Select vehicle class:">Wybierz klase pozajdu:</label>
+                        <select id="car-select" class="form-control">
+                            <option value="Standard">Standard</option>
+                            <option value="Premium">Premium</option>
+                            <option value="Bus do 9 osób">Bus do 9 osób</option>
+                            <option value="V-Class VIP">V-Class VIP</option>
+                        </select>
+                    </div>
+                    
+                    <button type="button" id="calculate-btn" class="contact-btn" data-pl="Oblicz koszt" data-en="Calculate">
+                        <span>Oblicz koszt</span>
+                        <i class="fas fa-calculator"></i>
+                    </button>
+                </form>
+                
+                <div class="price-result">
+                    <p data-pl="Ceny dla tej kategori zaczynają się od:" data-en="Prices for this category start from:">Ceny dla tej kategori zaczynają się od:</p>
+                    <div class="price-amount">0 PLN</div>
+                    <p data-pl="* Cena może się różnić w zależności od trasy" data-en="* Price may vary depending on route">* Cena może się różnić w zależności od trasy</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="section">
+            <h2 class="section-title" data-pl="Kontakt" data-en="Contact">Kontakt</h2>
+            
+            <div class="contact-container">
+                <div class="contact-info">                    
+                    <div class="contact-item" data-aos="fade-right" data-aos-delay="100">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4 data-pl="Telefon" data-en="Phone">Telefon</h4>
+                            <p>+48 731 932 666</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item" data-aos="fade-right" data-aos-delay="200">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4 data-pl="Email" data-en="Email">Email</h4>
+                            <p>kontakt@luxcars.pl</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item" data-aos="fade-right" data-aos-delay="300">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4 data-pl="Godziny otwarcia" data-en="Opening hours">Godziny otwarcia</h4>
+                            <p data-pl="Jesteśmy dostępni dla was 24/7" data-en="We are at your disposal 24/7!">Jesteśmy dostępni dla was 24/7</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-map" data-aos="fade-right" data-aos-delay="400">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d624193.481974878!2d24.86405177447742!3d52.32950558878546!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471ecc669a869f01%3A0x72f0be2a88ead3fc!2sWarszawa!5e0!3m2!1spl!2spl!4v1742510950665!5m2!1spl!2spl" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+                
+                <div class="contact-form" data-aos="fade-left">
+                    <form   action="https://formspree.io/f/xldjjend" method="POST">
+                    <div class="form-group">
+                        <label for="name" data-pl="Imię i nazwisko" data-en="Full name">Imię i nazwisko</label>
+                        <input type="text" id="name" class="form-control" data-pl="Twoje imię i nazwisko" data-en="Your full name" placeholder="Twoje imię i nazwisko">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" data-pl="Numer telefonu" data-en="Phone number (optional)">Numer telefonu (opcjonalnie)</label>
+                        <input type="tel" id="phone" class="form-control" data-pl="Twój numer telefonu" data-en="Your phone number" placeholder="Twój numer telefonu">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" data-pl="Email" data-en="Email">Email</label>
+                        <input type="email" id="email" class="form-control" data-pl="Twój adres email" data-en="Your email address" placeholder="Twój adres email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="car-category" data-pl="Wybierz kategorię:" data-en="Select category:">Wybierz kategorię:</label>
+                        <select id="car-category" name="car-category">
+                            <option value="Standard">Standard</option>
+                            <option value="Premium">Premium</option>
+                            <option value="Bus do 9 osób">Bus do 9 osób</option>
+                            <option value="V-Class VIP">V-Class VIP</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message" data-pl="Wiadomość" data-en="Message">Wiadomość</label>
+                        <textarea id="message" class="form-control" data-pl="Twoja wiadomość" data-en="Your message" placeholder="Twoja wiadomość"></textarea>
+                    </div>
+                    
+                    <button type="button" id="send-message" class="contact-btn" data-pl="Wyślij zapytanie" data-en="Send inquiry">
+                        <span>Wyślij zapytanie</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+                <div class="about-text" data-aos="fade-left">
+                        <p data-pl="Masz pytania, potrzebujesz dokładnej wyceny?" data-en="Do you have questions, do you need an accurate quote?">Masz pytania, potrzebujesz dokładnej wyceny?</p>
+                        <p data-pl="Jesteśmy do Twojej dyspozycji 24/7!" data-en="We are at your disposal 24/7!">Jesteśmy do Twojej dyspozycji 24/7!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>        
+        <div class="copyright">
+            <p data-pl="© 2025 RoyalTransfers. Wszelkie prawa zastrzeżone." data-en="© 2025 RoyalTransfers. All rights reserved.">© 2025 RoyalTransfers. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+    
+    <!-- Particles.js for hero section effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <!-- AOS - Animate On Scroll -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
